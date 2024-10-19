@@ -9,6 +9,13 @@ Cramed_config = {
     'drop_rate':0.1,
 }
 
+VGGSound_Config = {
+    'fusion':'concat',
+    'grad_norm_clip':0,
+    'mode':'train',
+    'drop_rate':0.1,
+}
+
 AVMNIST_Condig = {
     'mode':'train',
 }
@@ -67,13 +74,13 @@ def parse_args():
     parser.add_argument('--expt_dir',type=str,default="checkpoint")
     parser.add_argument('--expt_name',type=str,default='test_experiment')
     parser.add_argument('--batch_size',type=int,default=16)
-    parser.add_argument('--EPOCHS',type=int,default=10)
-    parser.add_argument('--learning_rate',type=float,default=0.00001)
-    parser.add_argument('--dataset',default='AVMNIST',type=str,choices=['MOSEI','CREMAD','URFunny','AVE','AV-MNIST'])
+    parser.add_argument('--EPOCHS',type=int,default=100)
+    parser.add_argument('--learning_rate',type=float,default=0.001)
+    parser.add_argument('--dataset',default='AVMNIST',type=str,choices=['MOSEI','CREMAD','URFunny','AVE','AV-MNIST', 'VGGSound'])
     parser.add_argument('--local_rank',default=-1,type=int,help="node rank for distributed training")
     parser.add_argument('--modulation_starts',default=0,type=int,help="where modulation starts.")
-    parser.add_argument('--modulation_ends',default=20,type=int,help="where modulation ends")
-    parser.add_argument('--alpha',type=float,default=1.0,help='degree of Gradient Modulation')
+    parser.add_argument('--modulation_ends',default=300,type=int,help="where modulation ends")
+    parser.add_argument('--alpha',type=float,default=2.5,help='degree of Gradient Modulation')
     parser.add_argument('--lr_decay_ratio',type=float,default=0.1)
     parser.add_argument('--lr_decay_step',type=int,default=70)
     parser.add_argument('--use_mgpu',type=boolean_string,default=False,help='whether to use multi-gpu or not.')
@@ -105,3 +112,7 @@ class Config():
             self.add_args(AVE_Config)
         elif self.dataset == 'AV-MNIST':
             self.add_args(AVMNIST_Condig)
+        elif self.dataset == 'VGGSound':
+            self.add_args(VGGSound_Config)
+        else:
+            raise NotImplementedError('Incorrect dataset name {}'.format(self.dataset))

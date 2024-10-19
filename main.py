@@ -4,6 +4,7 @@ from run.CREMAD_main import CREMAD_main
 from run.URFunny_main import URFunny_main
 from run.AVE_main import AVE_main
 from run.MOSEI_main import MOSEI_main
+from run.VGGSound_main import VGGSound_main
 
 
 def main():
@@ -18,6 +19,8 @@ def main():
         AVE_main(cfgs)
     elif cfgs.dataset == "MOSEI":
         MOSEI_main(cfgs)
+    elif cfgs.dataset == "VGGSound":
+        VGGSound_main(cfgs)
     
 
 

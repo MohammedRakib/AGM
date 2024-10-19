@@ -53,11 +53,14 @@ class CreamdDataset(Dataset):
         self.data_root = args.data_root
         class_dict = {'NEU':0, 'HAP':1, 'SAD':2, 'FEA':3, 'DIS':4, 'ANG':5}
 
-        self.visual_feature_path = args.data_root
-        self.audio_feature_path = os.path.join(self.data_root,'Audio')
+        self.visual_feature_path = "/home/rakib/Multimodal-Datasets/CREMA-D"
+        # self.audio_feature_path = os.path.join(self.data_root,'Audio')
+        self.audio_feature_path = "/home/rakib/Multimodal-Datasets/CREMA-D/AudioWAV"
 
-        self.train_csv = os.path.join(self.data_root, args.dataset + '/train.csv')
-        self.test_csv = os.path.join(self.data_root, args.dataset + '/test.csv')
+        # self.train_csv = os.path.join(self.data_root, args.dataset + '/train.csv')
+        self.train_csv = '/home/rakib/Multi-modal-Imbalance/data/CREMAD/train.csv'
+        # self.test_csv = os.path.join(self.data_root, args.dataset + '/test.csv')
+        self.test_csv = '/home/rakib/Multi-modal-Imbalance/data/CREMAD/test.csv'
 
         self.train_image = []
         self.train_audio = []

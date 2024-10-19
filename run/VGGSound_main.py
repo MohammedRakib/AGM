@@ -4,7 +4,7 @@ import os
 import math
 import torch.nn as nn
 import numpy as np
-from tasks.CREMAD_task import Cramed_Task
+from tasks.VGGSound_task import VGGSound_Task
 from utils.function_tools import save_config,get_device,get_logger,set_seed,weight_init
 from torch.utils.tensorboard import SummaryWriter
 from sklearn import linear_model
@@ -18,8 +18,8 @@ def train(model,train_dataloader,optimizer,scheduler,logger,cfgs,epoch,device,wr
     model.train()
     total_batch = len(train_dataloader)
 
-    if cfgs.dataset == 'CREMAD':
-        n_classes = 6
+    if cfgs.dataset == 'VGGSound':
+        n_classes = 309
     else:
         raise NotImplementedError('Incorrect dataset name {}'.format(cfgs.dataset))
 
@@ -66,6 +66,9 @@ def train(model,train_dataloader,optimizer,scheduler,logger,cfgs,epoch,device,wr
                 out_v = 0.5*(total_out-pad_visual_out+pad_audio_out)
             else:
                 out_a,out_v,out = model(spec.unsqueeze(1).float(),image.float())
+            
+            # print(f"Target range: min={label.min()}, max={label.max()}, num_classes={n_classes}")
+            
             loss = criterion(out,label)
         
         train_batch_loss += loss.item() / total_batch
@@ -271,8 +274,8 @@ def train(model,train_dataloader,optimizer,scheduler,logger,cfgs,epoch,device,wr
 def test(model,test_dataloader,logger,cfgs,epoch,device,writer):
     softmax = nn.Softmax(dim=1)
     criterion = nn.CrossEntropyLoss()
-    if cfgs.dataset == 'CREMAD':
-        n_classes = 6
+    if cfgs.dataset == 'VGGSound':
+        n_classes = 309
     else:
         raise NotImplementedError('Incorrect dataset name {}'.format(cfgs.dataset))
     start_time = time.time()
@@ -433,8 +436,8 @@ def test(model,test_dataloader,logger,cfgs,epoch,device,writer):
 def test_compute_weight(model,test_dataloader,logger,cfgs,epoch,device,writer,mm_to_audio_lr,mm_to_visual_lr,test_audio_out,test_visual_out):
     softmax = nn.Softmax(dim=1)
     criterion = nn.CrossEntropyLoss()
-    if cfgs.dataset == 'CREMAD':
-        n_classes = 6
+    if cfgs.dataset == 'VGGSound':
+        n_classes = 309
     else:
         raise NotImplementedError('Incorrect dataset name {}'.format(cfgs.dataset))
     start_time = time.time()
@@ -577,7 +580,7 @@ def extract_mm_feature(model,dep_dataloader,device,cfgs):
         all_feature = torch.cat(all_feature,dim=0)
         return all_feature
 
-def CREMAD_main(cfgs):
+def VGGSound_main(cfgs):
     set_seed(cfgs.random_seed)
     ts = time.strftime('%Y_%m_%d %H:%M:%S',time.localtime())
     save_dir = os.path.join(cfgs.expt_dir,f"{ts}_{cfgs.expt_name}")
@@ -594,7 +597,7 @@ def CREMAD_main(cfgs):
     writer = SummaryWriter(os.path.join(save_dir,'tensorboard_out'))
     logger.info(vars(cfgs))
     logger.info(f"Processing ID:{os.getpid()},Device:{device},System-dependence Version:{os.uname()}")
-    task = Cramed_Task(cfgs)
+    task = VGGSound_Task(cfgs)
     train_dataloader = task.train_dataloader
     test_dataloader = task.test_dataloader
     dep_dataloader = task.dep_dataloader

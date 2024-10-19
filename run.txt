@@ -1,0 +1,10 @@
+python main.py --data_root '' --device cuda:2 --methods AGM --modality Multimodal --fusion_type late_fusion --random_seed 999 --expt_dir checkpoint --expt_name test --batch_size 16 --EPOCHS 300 --learning_rate 0.001 --dataset VGGSound --alpha 1.5 --modulation_ends 300 --lr_decay_ratio 0.9 --lr_decay_step 70
+
+
+python main.py --data_root '' --device cuda:0 --methods MSLR --modality Multimodal --fusion_type late_fusion --random_seed 999 --expt_dir checkpoint --expt_name test --batch_size 16 --EPOCHS 100 --learning_rate 0.001 --dataset VGGSound --alpha 2.5 --modulation_ends 50 --lr_decay_ratio 0.9 --lr_decay_step 70
+
+
+python main.py --data_root '' --device cuda:1 --methods MSES --modality Multimodal --fusion_type late_fusion --random_seed 999 --expt_dir checkpoint --expt_name test --batch_size 16 --EPOCHS 100 --learning_rate 0.001 --dataset VGGSound --alpha 2.5 --modulation_ends 50 --lr_decay_ratio 0.9 --lr_decay_step 70
+
+
+python main.py --data_root '' --device cuda:1 --methods Normal --modality Multimodal --fusion_type late_fusion --random_seed 999 --expt_dir checkpoint --expt_name test --batch_size 16 --EPOCHS 100 --learning_rate 0.001 --dataset CREMAD --alpha 2.5 --lr_decay_ratio 0.9 --lr_decay_step 70

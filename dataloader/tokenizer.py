@@ -1,6 +1,7 @@
 
 
-import en_vectors_web_lg
+# import en_vectors_web_lg
+import spacy
 import re
 import os
 import pickle
@@ -33,7 +34,8 @@ def create_dict(key_to_sentence,dataroot,use_glove=True):
     pretrained_emb = []
 
     if use_glove:
-        spacy_tool = en_vectors_web_lg.load()
+        spacy_tool = spacy.load("en_core_web_lg")
+        # spacy_tool = en_vectors_web_lg.load()
         pretrained_emb.append(spacy_tool('UNK').vector)
 
     for k,v in key_to_sentence.items():
